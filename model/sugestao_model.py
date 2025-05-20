@@ -1,0 +1,1 @@
+#Aqui funções Model de Sugestão de Compras (Categoria e Produtos)
