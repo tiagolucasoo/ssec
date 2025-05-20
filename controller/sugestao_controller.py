@@ -1,0 +1,1 @@
+#Aqui funções Controller de Sugestão de Compras (Categoria e Produtos)
