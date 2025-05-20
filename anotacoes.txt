@@ -1,0 +1,27 @@
+-- PRODUTOS
+    CREATE TABLE cad_produtos(
+        codigo_produto INTEGER PRIMARY KEY AUTOINCREMENT,
+        codigobarras INT(30),
+        descricao_produto VARCHAR(50) NOT NULL,
+        marca VARCHAR(20) NOT NULL,
+        categoria VARCHAR(40) NOT NULL,
+        custo DECIMAL(8,2) NOT NULL,
+        venda DECIMAL(8,2) NOT NULL
+    );
+
+-- CATEGORIAS
+    CREATE TABLE cad_categorias(
+        codigo_categoria INTEGER PRIMARY KEY AUTOINCREMENT,
+        descricao_produto VARCHAR(50) NOT NULL
+    );
+
+-- IMPORTAÇÃO MANUAL E EM LOTE
+    CREATE TABLE dados_vendas(
+        codigo_dados INTEGER PRIMARY KEY AUTOINCREMENT,
+        codigo_venda INT(8) NOT NULL,
+        quantidade_venda INT(8) NOT NULL,
+        periodo_venda INT(3) NOT NULL
+    );
+
+Sugestão precisa de banco?
+E se eu importar produtos em lote? A tabela é a mesma
