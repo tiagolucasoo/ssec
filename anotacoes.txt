@@ -25,3 +25,14 @@
 
 Sugestão precisa de banco?
 E se eu importar produtos em lote? A tabela é a mesma
+
+Exemplo um botão de salvar
+na view o usuário clica em salvar e chama uma função do controller
+o controller faz a validação e chama uma função da model que retorna booleano
+se sim função para salvar os dados no model se não erro
+
+SQLITE apenas no model
+
+começar com categoria que vou precisar para o cadastro de produtos
+1º 
+
