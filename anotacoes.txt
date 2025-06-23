@@ -36,3 +36,18 @@ SQLITE apenas no model
 começar com categoria que vou precisar para o cadastro de produtos
 1º 
 
+---
+Cadastrar Produto
+Cadastrar Produto em Lote
+    odigo_produto INTEGER PRIMARY KEY AUTOINCREMENT,
+        codigobarras INT(30),
+        descricao_produto VARCHAR(50) NOT NULL,
+        marca VARCHAR(20) NOT NULL,
+        categoria VARCHAR(40) NOT NULL,
+        custo DECIMAL(8,2) NOT NULL,
+        venda DECIMAL(8,2) NOT NULL
+
+Cadastrar categoria
+
+#   #   #   #   #   #   #   #   #
+Base do Cadastro de Categoria OK
