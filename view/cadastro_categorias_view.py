@@ -13,6 +13,7 @@ class view_cadastro_categorias(customtkinter.CTk):
         self.geometry("1000x800")
         self.title("SSEC - Cadastro de Categorias")
         self.controller = controller_instance
+        self.conferir_categorias = None
 
         def configuracao_form(): #Width, Height e características padrão para o formulário (Fazer o chamado em Kwargs **)
             CONFIG_BOTOES = {"width":200, "height":50, "border_width":0, "border_color":'#000', "text_color":'#001F21'}
@@ -46,12 +47,20 @@ class view_cadastro_categorias(customtkinter.CTk):
             
 
         #Botões Limpar e Salvar
+
+
         self.limpar_categoria = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#ECC039", text="Limpar", command=self.limpar_campos_view)
         self.limpar_categoria.pack()
         self.salvar_categoria = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#DE4F15", text="Salvar", command=self.salvar_dados_da_view)
         self.salvar_categoria.pack()
-        self.conferir_categorias = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#029B99", text="Conferir Categorias", command=categoriasExistentes)
-        self.conferir_categorias.pack()
+
+        if self.conferir_categorias is not None:
+                self.conferir_categorias.destroy()
+                self.conferir_categorias = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#029B99", text="Conferir Categorias", command="")
+                self.conferir_categorias.pack()
+        elif self.conferir_categorias is None:
+            self.conferir_categorias = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#029B99", text="Conferir Categorias", command=categoriasExistentes)
+            self.conferir_categorias.pack()
 
     def salvar_dados_da_view(self):
         # Obtém os dados dos campos de entrada
