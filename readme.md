@@ -1,26 +1,28 @@
 # Checklist – Sistema de Sugestão Estratégica de Compras (SSEC)
+- Projeto em criação (Ainda não finalizado) | Assim que finalizado (Julho) este será postado no meu LinkedIn e terá aqui o readme alterado descrevendo as funcionalidades
 
 ## Etapa 1 – Estrutura Inicial
-- [ ] Criar estrutura de pastas (`models`, `views`, `controllers`, `db`, `utils`)
-- [ ] Criar banco SQLite com tabelas: `produtos`, `categorias`, `vendas`
-- [ ] Criar script inicial para conexão com o banco
+- [X] Criar estrutura de pastas (`models`, `views`, `controllers`, `db`, `utils`)
+- [X] Criar banco SQLite com tabelas: `produtos`, `categorias`, `vendas`
+- [X] Criar script inicial para conexão com o banco
 
 ## Etapa 2 – Tela Principal e Menu
-- [ ] Criar tela principal com menu (Tkinter ou CustomTkinter)
-- [ ] Criar botões de acesso para cada funcionalidade
+- [X] Criar tela principal com menu (Tkinter ou CustomTkinter)
+- [X] Criar botões de acesso para cada funcionalidade
+- [ ] Cria Menu
 
 ## Etapa 3 – Cadastro de Categorias
-- [ ] Criar formulário de cadastro de categoria
-- [ ] Implementar função `adicionar_categoria` no banco
-- [ ] Listar categorias cadastradas (opcional: atualizar/deletar)
+- [X] Criar formulário de cadastro de categoria
+- [X] Implementar função `adicionar_categoria` no banco
+- [X] Listar categorias cadastradas (opcional: atualizar/deletar)
 
 ## Etapa 4 – Cadastro de Produtos
-- [ ] Criar tela com campos: código, descrição, marca, categoria, custo, venda
+- [X] Criar tela com campos: código, descrição, marca, categoria, custo, venda
 - [ ] Implementar função `adicionar_produto` no banco
-- [ ] Combobox para seleção de categoria
+- [X] Combobox para seleção de categoria
 
 ## Etapa 5 – Importação Manual de Vendas
-- [ ] Criar formulário para digitar: código, quantidade, período
+- [X] Criar formulário para digitar: código, quantidade, período
 - [ ] Validar e salvar os dados na tabela `vendas`
 
 ## Etapa 6 – Importação de Vendas por Lote (.txt)
