@@ -1,18 +1,9 @@
 import customtkinter
-import tkinter as tk
-from tkinter import Menu
-
 from controller.cadastro_controller import controller_cadastro
 
-import subprocess
-import sys
-import os
-'''
-Código Produto - Código de Barras
-Descrição do Produto
-Marca - Categoria[]
-Custo - Marcação - Venda
-'''
+#Importação para o Menu
+import tkinter as tk; from tkinter import Menu
+import subprocess; import sys; import os
 
 class view_cadastro_produtos(customtkinter.CTk):
     def __init__(self):
@@ -30,24 +21,22 @@ class view_cadastro_produtos(customtkinter.CTk):
             exibir_tela = os.path.join(diretorio, link)
             subprocess.Popen([executavel, exibir_tela])
             self.destroy()
-
-        def temaSystem():
-            return customtkinter.set_appearance_mode("system")
-        def temaDark():
-            return customtkinter.set_appearance_mode("dark")
-        
+        def ALTERAR_TEMA(tipo):
+            return customtkinter.set_appearance_mode(tipo)
+        # def temaDark():
+        #     return customtkinter.set_appearance_mode("dark") "system"
         def exibirMenu():
             barra_menu = Menu(self)
 
             menu_1 = Menu(barra_menu, tearoff=0)
-            menu_1.add_command(label="Página Inicial", command=lambda: ALTERAR_TELA("main.py"))
+            menu_1.add_command(label="Página Inicial", command=lambda: ALTERAR_TELA("../main.py"))
             menu_1.add_separator()
             menu_1.add_command(label="Sair", command=self.quit)
             barra_menu.add_cascade(label="Página Inicial", menu=menu_1)
 
             menu_2 = Menu(barra_menu, tearoff=0)
             menu_2.add_command(label="Produtos", command=lambda: ALTERAR_TELA("cadastro_produtos_view.py"))
-            menu_2.add_command(label="Categorias", command=lambda: ALTERAR_TELA("cadastro_categorias_view.py"))
+            menu_2.add_command(label="Categorias", command=lambda: ALTERAR_TELA("../main.py"))
             menu_2.add_command(label="Vendas", command=lambda: ALTERAR_TELA("importacao_manual_view.py"))
             barra_menu.add_cascade(label="Cadastro", menu=menu_2)
 
@@ -61,14 +50,13 @@ class view_cadastro_produtos(customtkinter.CTk):
             barra_menu.add_cascade(label="Compras", menu=menu_4)
 
             menu_5 = Menu(barra_menu, tearoff=0)
-            menu_5.add_command(label="Modo Escuro", command=temaDark)
-            menu_5.add_command(label="Modo Claro", command=temaSystem)
+            menu_5.add_command(label="Modo Escuro", command=lambda: ALTERAR_TEMA("dark"))
+            menu_5.add_command(label="Modo Claro", command=lambda: ALTERAR_TEMA("system"))
             barra_menu.add_cascade(label="Aparência", menu=menu_5)
 
             self.config(menu=barra_menu)
-        
         exibirMenu()
-        # ----- FIM DO MENU ----- #
+        # ----- FIM DO MENU ----- 
 
         CONFIG_BOTOES = {"width":200, "height":50, "border_width":2, "border_color":'#000', "text_color":'#001F21'}
         CONFIG_INPUTS1 = {"width":600, "height":50, "border_width":0} #Para 1 por Linha
@@ -130,15 +118,15 @@ class view_cadastro_produtos(customtkinter.CTk):
         label6 = customtkinter.CTkLabel(self, text="Tipo de Produto", fg_color="transparent")
         label6.pack()
         self.radio_var = customtkinter.Variable(value=0)
-        radiobutton_1 = customtkinter.CTkRadioButton(container_radio1, text="1) Curva A", variable=self.radio_var, value=1)
+        radiobutton_1 = customtkinter.CTkRadioButton(container_radio1, text="Curva A", variable=self.radio_var, value=1)
         radiobutton_1.pack(side="left")
-        radiobutton_2 = customtkinter.CTkRadioButton(container_radio1, text="1) Curva B", variable=self.radio_var, value=2)
+        radiobutton_2 = customtkinter.CTkRadioButton(container_radio1, text="Curva B", variable=self.radio_var, value=2)
         radiobutton_2.pack(side="left")
-        radiobutton_3 = customtkinter.CTkRadioButton(container_radio1, text="1) Curva C", variable=self.radio_var, value=3)
+        radiobutton_3 = customtkinter.CTkRadioButton(container_radio1, text="Curva C", variable=self.radio_var, value=3)
         radiobutton_3.pack(side="left")
-        radiobutton_4 = customtkinter.CTkRadioButton(container_radio1, text="1) Lançamento", variable=self.radio_var, value=4)
+        radiobutton_4 = customtkinter.CTkRadioButton(container_radio1, text="Lançamento", variable=self.radio_var, value=4)
         radiobutton_4.pack(side="left")
-        radiobutton_5 = customtkinter.CTkRadioButton(container_radio1, text="1) Exclusivo", variable=self.radio_var, value=5)
+        radiobutton_5 = customtkinter.CTkRadioButton(container_radio1, text="Exclusivo", variable=self.radio_var, value=5)
         radiobutton_5.pack(side="left")
 
         button1 = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#ECC039", text="Limpar", command=self.limpar_campos_view)

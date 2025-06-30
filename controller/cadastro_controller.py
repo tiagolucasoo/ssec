@@ -59,12 +59,10 @@ class controller_cadastro:
         print('Categoria Limpa')
     '''
 
-    #Aqui Código do salvar produto
     def cadastrarProduto(self, codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
         print(f"Cadastrando Produto: {descricao_produto}")
 
         # --- Validações ---
-        # Exemplo: Verificar se campos obrigatórios não estão vazios
         if not descricao_produto.strip() or not marca.strip() or not categoria.strip():
             if self.view:
                 self.view.exibir_mensagem_erro("Campos 'Descrição', 'Marca' e 'Categoria' são obrigatórios.")

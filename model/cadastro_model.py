@@ -140,9 +140,8 @@ def listarProdutosModel():
     conn = rota_banco()
     cursor = conn.cursor()
     try:
-        # Você pode ajustar as colunas que deseja retornar
         cursor.execute("SELECT descricao_produto, codigobarras FROM cad_produtos")
-        produtos = cursor.fetchall() # Retorna uma lista de tuplas
+        produtos = cursor.fetchall() 
         return produtos
     finally:
         conn.close()
