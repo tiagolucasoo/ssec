@@ -22,10 +22,11 @@ def BD_cad_produtos():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS cad_produtos(
             codigo_produto INTEGER PRIMARY KEY AUTOINCREMENT,
-            codigobarras INT(30),
+            codigobarras INT(30) UNIQUE,
             descricao_produto VARCHAR(50) NOT NULL,
             marca VARCHAR(20) NOT NULL,
             categoria VARCHAR(40) NOT NULL,
+            curva INT NOT NULL,
             custo DECIMAL(8,2) NOT NULL,
             venda DECIMAL(8,2) NOT NULL
         )
@@ -111,3 +112,37 @@ def listarCodigoCategoriaModel():
     finally:
         conn.close()
 '''
+
+# Aqui Código do salvar produto
+
+def salvarProdutos(codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
+    conn = rota_banco()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            INSERT INTO cad_produtos (codigobarras, descricao_produto, marca, categoria, custo, venda, curva)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (codigobarras, descricao_produto, marca, categoria, custo, venda, curva))
+        conn.commit()
+        print(f"Model: Produto '{descricao_produto}' salvo no banco.")
+        return True
+    except sqlite3.IntegrityError as e:
+        print(f"Erro de integridade ao salvar produto: {e}")
+        return False
+    except Exception as e:
+        print(f"Erro geral ao salvar produto: {e}")
+        return False
+    finally:
+        conn.close()
+
+def listarProdutosModel():
+    conn = rota_banco()
+    cursor = conn.cursor()
+    try:
+        # Você pode ajustar as colunas que deseja retornar
+        cursor.execute("SELECT descricao_produto, codigobarras FROM cad_produtos")
+        produtos = cursor.fetchall() # Retorna uma lista de tuplas
+        return produtos
+    finally:
+        conn.close()

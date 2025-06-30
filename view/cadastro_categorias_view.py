@@ -1,6 +1,11 @@
 import customtkinter
 import tkinter as tk
+from tkinter import Menu
 from controller.cadastro_controller import controller_cadastro
+
+import subprocess
+import sys
+import os
 
 
 #cadastro_categorias_view.py
@@ -14,6 +19,53 @@ class view_cadastro_categorias(customtkinter.CTk):
         self.title("SSEC - Cadastro de Categorias")
         self.controller = controller_instance
         self.conferir_categorias = None
+
+        # ----- ÍNICIO DO MENU -----
+        def ALTERAR_TELA(link):
+            executavel = sys.executable
+            diretorio = os.path.dirname(__file__)
+            exibir_tela = os.path.join(diretorio, link)
+            subprocess.Popen([executavel, exibir_tela])
+            self.destroy()
+
+        def temaSystem():
+            return customtkinter.set_appearance_mode("system")
+        def temaDark():
+            return customtkinter.set_appearance_mode("dark")
+        
+        def exibirMenu():
+            barra_menu = Menu(self)
+
+            menu_1 = Menu(barra_menu, tearoff=0)
+            menu_1.add_command(label="Página Inicial", command="")
+            menu_1.add_separator()
+            menu_1.add_command(label="Sair", command=self.quit)
+            barra_menu.add_cascade(label="Página Inicial", menu=menu_1)
+
+            menu_2 = Menu(barra_menu, tearoff=0)
+            menu_2.add_command(label="Produtos", command=lambda: ALTERAR_TELA("cadastro_produtos_view.py"))
+            menu_2.add_command(label="Categorias", command=lambda: ALTERAR_TELA("cadastro_categorias_view.py"))
+            menu_2.add_command(label="Vendas", command=lambda: ALTERAR_TELA("importacao_manual_view.py"))
+            barra_menu.add_cascade(label="Cadastro", menu=menu_2)
+
+            menu_3 = Menu(barra_menu, tearoff=0)
+            menu_3.add_command(label="Produtos em lote", command=lambda: ALTERAR_TELA("importacao_produtos_view.py"))
+            menu_3.add_command(label="Relatório de Vendas", command=lambda: ALTERAR_TELA("importacao_lote_view.py"))
+            barra_menu.add_cascade(label="Importar", menu=menu_3)
+
+            menu_4 = Menu(barra_menu, tearoff=0)
+            menu_4.add_command(label="Sugestão de Compras", command=lambda: ALTERAR_TELA("sugestao_compras_view.py"))
+            barra_menu.add_cascade(label="Compras", menu=menu_4)
+
+            menu_5 = Menu(barra_menu, tearoff=0)
+            menu_5.add_command(label="Modo Escuro", command=temaDark)
+            menu_5.add_command(label="Modo Claro", command=temaSystem)
+            barra_menu.add_cascade(label="Aparência", menu=menu_5)
+
+            self.config(menu=barra_menu)
+        
+        exibirMenu()
+        # ----- FIM DO MENU ----- #
 
         def configuracao_form(): #Width, Height e características padrão para o formulário (Fazer o chamado em Kwargs **)
             CONFIG_BOTOES = {"width":200, "height":50, "border_width":0, "border_color":'#000', "text_color":'#001F21'}

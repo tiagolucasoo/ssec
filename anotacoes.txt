@@ -44,6 +44,7 @@ Cadastrar Produto em Lote
         descricao_produto VARCHAR(50) NOT NULL,
         marca VARCHAR(20) NOT NULL,
         categoria VARCHAR(40) NOT NULL,
+        curva VARCHAR(10) NOT NULL,
         custo DECIMAL(8,2) NOT NULL,
         venda DECIMAL(8,2) NOT NULL
 
@@ -51,3 +52,10 @@ Cadastrar categoria
 
 #   #   #   #   #   #   #   #   #
 Base do Cadastro de Categoria OK
+
+1º Contagem Linhas
+    Total = 662
+
+2º Configurar Menu e troca de janelas
+3º Espelhar nas demais Views
+4º Ajustar a aparência da view (Deixar 100% Ok)
