@@ -1,19 +1,18 @@
 #Aqui funções Model de Cadastro (Categoria e Produtos)
 # Salvar informações - Buscar a lista de categorias
 # Calcular o custo de um pedido
-# cadastro_model.py
 
 import sqlite3
 import os
 
-#Cria o Banco de Dados de Cadastro de Produtos
-
+#1) SOLID - Reaproveitamento da Rota do BD
 def rota_banco():
     caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
     conn = sqlite3.connect(caminho_banco)
     print("Banco conectado!")
     return conn
 
+#2) Criação das Tabelas
 def BD_cad_produtos():
     conn = rota_banco()
     cursor = conn.cursor()
@@ -34,9 +33,6 @@ def BD_cad_produtos():
     print("Tabela cad_produtos já existe ou foi criada!\n")
     conn.commit()
     conn.close()
-
-BD_cad_produtos()
-#Cria o Banco de Dados de Cadastro de Categorias
 def BD_cad_categorias():
     #caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
     #conn = sqlite3.connect(caminho_banco)
@@ -56,9 +52,28 @@ def BD_cad_categorias():
 
     conn.commit() #Confirma as alterações
     conn.close() #Encerra o BD
+def BD_cad_vendas():
+    conn = rota_banco()
+    cursor = conn.cursor()
 
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS cad_vendas (
+            codigo_venda INTEGER PRIMARY KEY AUTOINCREMENT,
+            codigo_produto INTEGER NOT NULL,
+            quantidade_vendida INT(5) NOT NULL,
+            periodo_vendas INT(3) NOT NULL,
+            FOREIGN KEY (codigo_produto) REFERENCES cad_produtos(codigo_produto)
+        )
+    ''')
+    print("Tabela cad_vendas já existe ou foi criada!\n")
+    conn.commit()
+    conn.close()
+
+BD_cad_vendas()
+BD_cad_produtos()
 BD_cad_categorias()
 
+#3) Salvar Tabelas
 def salvarCategorias(descricao_categoria,):
     caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
     conn = sqlite3.connect(caminho_banco)
@@ -76,6 +91,54 @@ def salvarCategorias(descricao_categoria,):
         print("Erro geral ao salvar: ", e)
     finally:
         conn.close()
+def salvarProdutos(codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
+    conn = rota_banco()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            INSERT INTO cad_produtos (codigobarras, descricao_produto, marca, categoria, custo, venda, curva)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (codigobarras, descricao_produto, marca, categoria, custo, venda, curva))
+        conn.commit()
+        print(f"Model: Produto '{descricao_produto}' salvo no banco.")
+        return True
+    except sqlite3.IntegrityError as e:
+        print(f"Erro de integridade ao salvar produto: {e}")
+        return False
+    except Exception as e:
+        print(f"Erro geral ao salvar produto: {e}")
+        return False
+    finally:
+        conn.close()
+
+def salvarVendas(codigo_produto, quantidade_vendida, periodo_vendas):
+    conn = rota_banco()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            INSERT INTO cad_vendas (codigo_produto, quantidade_vendida, periodo_vendas)
+            VALUES (?, ?, ?)""",
+            (codigo_produto, quantidade_vendida, periodo_vendas))
+        conn.commit()
+        print(f"Model: Dados de Vendas inseridos com sucesso! - Produto {codigo_produto}, {quantidade_vendida} em {periodo_vendas} dias.")
+        return True
+    except sqlite3.IntegrityError as e:
+        print(f"Erro de integridade ao salvar os dados de venda: {e}")
+        return False
+    except Exception as e:
+        print(f"Erro geral ao salvar a venda: {e}")
+        return False
+    finally:
+        conn.close()
+        
+    '''
+    codigo_venda INTEGER PRIMARY KEY AUTOINCREMENT,
+            codigo_produto INTEGER NOT NULL,
+            quantidade_vendida INT(5) NOT NULL,
+            periodo_vendas INT(3) NOT NULL,'''
+
 
 def listarCategoriasModel():
     #caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
@@ -113,28 +176,6 @@ def listarCodigoCategoriaModel():
         conn.close()
 '''
 
-# Aqui Código do salvar produto
-
-def salvarProdutos(codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
-    conn = rota_banco()
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute("""
-            INSERT INTO cad_produtos (codigobarras, descricao_produto, marca, categoria, custo, venda, curva)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (codigobarras, descricao_produto, marca, categoria, custo, venda, curva))
-        conn.commit()
-        print(f"Model: Produto '{descricao_produto}' salvo no banco.")
-        return True
-    except sqlite3.IntegrityError as e:
-        print(f"Erro de integridade ao salvar produto: {e}")
-        return False
-    except Exception as e:
-        print(f"Erro geral ao salvar produto: {e}")
-        return False
-    finally:
-        conn.close()
 
 def listarProdutosModel():
     conn = rota_banco()

@@ -31,9 +31,9 @@ class controller_cadastro:
             if self.view:
                 self.view.exibir_mensagem_erro("A descrição da categoria não pode ser vazia")
             return False
-        if descricao_categoria.lower() in categorias_existentes:
+        if descricao_categoria in list(categorias_existentes):
             if self.view:
-                self.view.exibir_mensagem_erro("Ajá existe")
+                self.view.exibir_mensagem_erro("Essa categoria já existe")
             return False
 
         #Chama o model
@@ -46,7 +46,6 @@ class controller_cadastro:
             return True
         else:
             print("Controller: Falha ao salvar categoria via Model (já existe ou erro).")
-            # Mensagem de erro já deve ter sido exibida pelo Model ou View
             return False
 
     def listarCategorias(self):
@@ -65,27 +64,27 @@ class controller_cadastro:
         # --- Validações ---
         if not descricao_produto.strip() or not marca.strip() or not categoria.strip():
             if self.view:
-                self.view.exibir_mensagem_erro("Campos 'Descrição', 'Marca' e 'Categoria' são obrigatórios.")
+                self.view.exibir_mensagem_erro("Preencha os Campos de 'Descrição', 'Marca' e 'Categoria' são obrigatórios.")
             return False
 
         if not isinstance(codigobarras, int) or codigobarras <= 0:
             if self.view:
-                self.view.exibir_mensagem_erro("Código de Barras inválido. Deve ser um número inteiro positivo.")
+                self.view.exibir_mensagem_erro("Código de Barras inválido.")
             return False
             
         if not isinstance(custo, (float, int)) or custo <= 0:
             if self.view:
-                self.view.exibir_mensagem_erro("Custo inválido. Deve ser um número maior que zero.")
+                self.view.exibir_mensagem_erro("Custo inválido, preencha um valor")
             return False
 
         if not isinstance(venda, (float, int)) or venda <= 0:
             if self.view:
-                self.view.exibir_mensagem_erro("Valor de Venda inválido. Deve ser um número maior que zero.")
+                self.view.exibir_mensagem_erro("Valor de Venda inválido, preencha um valor")
             return False
         
         if not isinstance(curva, (int)) or curva <= 1 or curva > 5:
             if self.view:
-                self.view.exibir_mensagem_erro("Insira a curva do produto.")
+                self.view.exibir_mensagem_erro("Insira a curva de vendas do Produto")
             return False
 
         # Chama o Model para salvar
