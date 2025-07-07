@@ -4,9 +4,6 @@ from tkinter import messagebox
 
 from controller.controller import controller_cadastro
 
-#cadastro_categorias_view.py
-#Fazer padrão botões 200x50 e entry em 2 medidas - 600x50 (Apenas 1) - 275x50 (2)
-
 class view_cadastro_categorias(customtkinter.CTkFrame):
     def __init__(self, parent, controller_instance):
         super().__init__(parent)
@@ -25,8 +22,7 @@ class view_cadastro_categorias(customtkinter.CTkFrame):
         
         #Código da Categoria
         self.label_codigo_categoria = customtkinter.CTkLabel(self, width=600, height=50, text="Código da Categoria", fg_color="transparent")
-        self.label_codigo_categoria.pack()
-        self.label2_codigo_categoria = customtkinter.CTkLabel(self, width=600, height=50, text="", fg_color="white")
+        self.label2_codigo_categoria = customtkinter.CTkLabel(self, width=600, height=50, text="", fg_color="transparent")
         self.label2_codigo_categoria.pack()
 
         #Descrição da Categoria
@@ -35,63 +31,56 @@ class view_cadastro_categorias(customtkinter.CTkFrame):
         self.input_desc_categoria = customtkinter.CTkEntry(self, **CONFIG_INPUTS1, placeholder_text="Digite aqui o nome da categoria")
         self.input_desc_categoria.pack()
 
-        #Categorias existentes
+        #Categorias existentes 000
         def categoriasExistentes():
             categorias = self.controller.listarCategorias()
             self.label5 = customtkinter.CTkLabel(self, text="Categorias Existentes", fg_color="transparent")
-            self.label5.pack()
             #Fazer uma função para esse check de categoria que reutilizo na sugestão de compras
             self.box_categoria = customtkinter.CTkComboBox(self, **CONFIG_INPUTS1, values=list(categorias))
             self.box_categoria.set("Selecione a Categoria")
             self.box_categoria.pack()
             self.conferir_categorias = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#029B99", text="Conferir Categorias", command="")
             
+        container_botoes = customtkinter.CTkFrame(self, fg_color="transparent")
+        container_botoes.pack(side="top")
 
-        #Botões Limpar e Salvar
+        #Botões
+        self.limpar_categoria = customtkinter.CTkButton(container_botoes, **CONFIG_BOTOES, fg_color="#ECC039", text="Limpar", command=self.limpar_campos_view)
+        self.limpar_categoria.pack(side="left", padx=20, pady=20)
+        self.salvar_categoria = customtkinter.CTkButton(container_botoes, **CONFIG_BOTOES, fg_color="#90EE90", text="Cadastrar", command=self.salvar_dados_da_view)
+        self.salvar_categoria.pack(side="left", padx=20, pady=20)
 
-
-        self.limpar_categoria = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#ECC039", text="Limpar", command=self.limpar_campos_view)
-        self.limpar_categoria.pack()
-        self.salvar_categoria = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#DE4F15", text="Salvar", command=self.salvar_dados_da_view)
-        self.salvar_categoria.pack()
-
+        #Visualização Categorias 000
         if self.conferir_categorias is not None:
                 self.conferir_categorias.destroy()
                 self.conferir_categorias = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#029B99", text="Conferir Categorias", command="")
-                self.conferir_categorias.pack()
+                #self.conferir_categorias.pack()
         elif self.conferir_categorias is None:
             self.conferir_categorias = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#029B99", text="Conferir Categorias", command=categoriasExistentes)
-            self.conferir_categorias.pack()
+            #self.conferir_categorias.pack()
 
     def salvar_dados_da_view(self):
-        # Obtém os dados dos campos de entrada
-        # (Você mencionou "Código do Produto" e "Descrição da Categoria")
-        # Adapte as variáveis conforme o que você quer salvar
-        # Por enquanto, estou usando 'descricao_categoria' como exemplo de dado a ser salvo
         descricao_categoria = self.input_desc_categoria.get()
-
-        # Chama o Controller, passando a descrição da categoria
-        # Note que o Controller precisa de um método que receba esses argumentos
-        self.controller.cadastrarCategoria(descricao_categoria) # <--- CHAMA O CONTROLLER
+        self.controller.cadastrarCategoria(descricao_categoria)
 
     def limpar_campos_view(self):
-        self.input_codigo_categoria.delete(0, tk.END)
         self.input_desc_categoria.delete(0, tk.END)
-        self.input_codigo_categoria.focus_set()
-        self.box_categoria("Selecione a Categoria")
-        print("View: Campos de entrada limpos.")
+        self.input_desc_categoria.focus_set()
+        print("V: Campos Limpos")
 
     def on_combobox_select(self, choice):
-        print(f"View: Categoria selecionada no ComboBox: {choice}")
+        print(f"V: Categoria selecionada: {choice}")
 
+    def exibir_mensagem_sucesso(self, mensagem):
+        tk.messagebox.showinfo("Sucesso", mensagem)
 
     def exibir_mensagem_erro(self, mensagem):
-        messagebox.showerror("Erro", mensagem)
+        tk.messagebox.showerror("Erro", mensagem)
 
-    def atualizar_combobox_categorias(self):
+    '''def atualizar_combobox_categorias(self):
         categorias_do_db = self.controller.obter_categorias_para_view()
         if categorias_do_db:
             self.box_categoria.configure(values=categorias_do_db)
         else:
             self.box_categoria.configure(values=["Nenhuma Categoria"])
-        self.box_categoria.set("Selecione a Categoria")
+        self.box_categoria.set("Selecione a Categoria")'''

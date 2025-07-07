@@ -11,8 +11,6 @@ class view_importacao_lote(customtkinter.CTkFrame):
         self.controller = controller_instance
         self.controller.set_view(self)
 
-
-
         CONFIG_BOTOES = {"width":200, "height":50, "border_width":2, "border_color":'#000', "text_color":'#001F21'}
         #CONFIG_INPUTS1 = {"width":600, "height":50, "border_width":0} #Para 1 por Linha
         CONFIG_INPUTS2 = {"width":275, "height":50, "border_width":0} #Para 2 por Linha
@@ -20,8 +18,7 @@ class view_importacao_lote(customtkinter.CTkFrame):
         def selecionar_arquivo():
             rota = askopenfilename(
                 title="Selecione um arquivo .txt",
-                filetypes=(("Arquivos de Texto", "*txt"), ("Todos os arquivos", "*.*"))
-            )
+                filetypes=(("Arquivos de Texto", "*txt"), ("Todos os arquivos", "*.*")))
             if rota:
                 self.label.configure(text="VOCÊ SELECIONOU:")
                 self.label.pack()
@@ -53,33 +50,26 @@ class view_importacao_lote(customtkinter.CTkFrame):
         descricao_label1.pack()
         descricao_label2.pack()
 
-        buscar_arquivo = customtkinter.CTkButton(self, **CONFIG_BOTOES, text="teste", command=selecionar_arquivo)
+        buscar_arquivo = customtkinter.CTkButton(self, **CONFIG_BOTOES, text="Selecione o Arquivo", command=selecionar_arquivo)
         buscar_arquivo.pack()
 
-        #Descrição do Produto
+        #Arquivo
         self.label = customtkinter.CTkLabel(self, text="", fg_color="transparent")
         self.label.pack()
         self.caminho_arquivo = customtkinter.CTkLabel(self, text="Nenhum arquivo selecionado", fg_color="transparent")
         self.caminho_arquivo.pack()
 
-        button1 = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#ffff00", text="Limpar", command="")
-        button2 = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#008000", text="Salvar", command=self.salvar_dados)
+        button1 = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#ECC039", text="Limpar", command="")
+        button2 = customtkinter.CTkButton(self, **CONFIG_BOTOES, fg_color="#DE4F15", text="Salvar", command=self.salvar_dados)
         
-
     def salvar_dados(self):
             try:
-                # Pega o TEXTO de dentro da label
                 caminho_do_arquivo = self.caminho_arquivo.cget("text")
 
-                # Verificação de segurança: não processar se nenhum arquivo foi escolhido
                 if not caminho_do_arquivo or caminho_do_arquivo == "Nenhum arquivo selecionado":
                     print("Nenhum arquivo válido selecionado para processar.")
-                    # Você pode mostrar uma messagebox de erro aqui
                     return
-
-                # Agora sim, passa a STRING com o caminho para o controller
                 self.controller.processarCaminho(caminho_do_arquivo)
-
                 
             except Exception as e:
                 print(f"Erro na view ao salvar dados: {e}")

@@ -10,6 +10,7 @@ from view.cad_produtos import view_cadastro_produtos
 from view.cad_vendas import view_importacao_manual
 from view.sugestao_compras import view_sugestao
 from view.imp_vendas import view_importacao_lote
+from view.imp_produtos import view_importacao_produtos
 
 class App(ctk.CTk):
     def __init__(self):
@@ -27,7 +28,7 @@ class App(ctk.CTk):
         container = ctk.CTkFrame(self)
         container.pack(side="top", fill="both", expand=True)
 
-        for tela in (view_cadastro_categorias, view_cadastro_produtos, view_importacao_manual, view_importacao_lote, view_sugestao):
+        for tela in (view_cadastro_categorias, view_cadastro_produtos, view_importacao_manual, view_importacao_lote, view_sugestao, view_importacao_produtos):
             nome = tela.__name__
             frame = tela(parent=container, controller_instance=self.controller)
             self.telas[nome] = frame
@@ -51,7 +52,7 @@ class App(ctk.CTk):
         barra_menu.add_cascade(label="Cadastro", menu=menu_2)
 
         menu_3 = Menu(barra_menu, tearoff=0)
-        menu_3.add_command(label="Produtos em lote", command=lambda: self.exibir_tela("view_sugestao"))
+        menu_3.add_command(label="Produtos em lote", command=lambda: self.exibir_tela("view_importacao_produtos"))
         menu_3.add_command(label="Relatório de Vendas", command=lambda: self.exibir_tela("view_importacao_lote"))
         barra_menu.add_cascade(label="Importar", menu=menu_3)
 

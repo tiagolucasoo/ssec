@@ -5,7 +5,7 @@
 import sqlite3
 import os
 
-#1) SOLID - Reaproveitamento da Rota do BD
+#1) Reaproveitamento da Rota do BD
 def rota_banco():
     caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
     conn = sqlite3.connect(caminho_banco)
@@ -140,7 +140,6 @@ def salvarVendas(codigo_produto: int, quantidade_vendida: int, periodo_vendas: i
             quantidade_vendida INT(5) NOT NULL,
             periodo_vendas INT(3) NOT NULL,'''
 
-
 def listarCategoriasModel():
     #caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
     #conn = sqlite3.connect(caminho_banco)
@@ -167,7 +166,7 @@ def listarProdutosModel():
         conn.close()
 
 def gerarSugestao(categoria, curva, periodo_reposicao):
-    print(f"--- DEBUG MODEL --- \nCategoria: '{categoria}' (Tipo: {type(categoria)}) \nCurva: '{curva}' (Tipo: {type(curva)}) \nPeríodo: '{periodo_reposicao}' (Tipo: {type(periodo_reposicao)}) \n-------------------")
+    print(f"--- MODEL --- \nCategoria: '{categoria}' (Tipo: {type(categoria)}) \nCurva: '{curva}' (Tipo: {type(curva)}) \nPeríodo: '{periodo_reposicao}' (Tipo: {type(periodo_reposicao)}) \n")
     conn = rota_banco()
     cursor = conn.cursor()
     query = """

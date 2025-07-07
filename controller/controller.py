@@ -12,6 +12,7 @@ class controller_cadastro:
     def mostrar_erro(self, mensagem: str):
         if self.view:
             self.view.exibir_mensagem_erro(mensagem)
+
     def mostrar_sucesso(self, mensagem: str):
         if self.view:
             self.view.exibir_mensagem_sucesso(mensagem)
@@ -23,6 +24,7 @@ class controller_cadastro:
         print(f"cadastrar Categoria {descricao_categoria}")
 
         if not self.validacao_cad_categoria(descricao_categoria):
+            self.mostrar_erro(f"Ocorreu um erro ao processar o arquivo.")
             return False
         if self._model_db.salvarCategorias(descricao_categoria.strip()):
             print("Controller: Categoria salva com sucesso via Model.")
@@ -61,9 +63,7 @@ class controller_cadastro:
         try:
             with open(arquivo_importado, mode='r', encoding='utf-8') as f:
             
-            # Loop para ler cada linha do arquivo
                 for numero_linha, linha_de_texto in enumerate(f, 1):
-
                     linha_limpa = linha_de_texto.strip()
                     if not linha_limpa:
                         continue
@@ -76,8 +76,6 @@ class controller_cadastro:
                             qtde_vendida = int(partes[1])
                             periodo = int(partes[2])
 
-                            # 3. AQUI É A PARTE CRUCIAL:
-                            # Chame o método para salvar esta linha no banco de dados.
                             self.cadastrarVenda(codigo_produto, qtde_vendida, periodo)
                         else:
                             print(f"Aviso: Linha {numero_linha} ignorada. Formato inválido: {linha_limpa}")
@@ -90,11 +88,8 @@ class controller_cadastro:
             print(f"Erro no Controller: Arquivo não encontrado em '{arquivo_importado}'")
             self.mostrar_erro(f"Arquivo não encontrado no caminho especificado.")
         except Exception as e:
-            print(f"Erro inesperado no Controller: {e}")
-            self.mostrar_erro(f"Ocorreu um erro inesperado ao processar o arquivo.")
-
-
-
+            print(f"Erro no Controller: {e}")
+            self.mostrar_erro(f"Ocorreu um erro ao processar o arquivo.")
 
     def listarCategorias(self):
         return self._model_db.listarCategoriasModel()
@@ -112,7 +107,7 @@ class controller_cadastro:
         return True
     def validacao_cad_produto(self, codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
             if not descricao_produto.strip() or not marca.strip() or not categoria.strip():
-                self.mostrar_erro("Preencha os Campos de 'Descrição', 'Marca' e 'Categoria' são obrigatórios.")
+                self.mostrar_erro("Confira os campos descrição, marca e categoria!")
                 return False
 
             if not isinstance(codigobarras, int) or codigobarras <= 0:
@@ -127,19 +122,15 @@ class controller_cadastro:
                 self.mostrar_erro("Valor de Venda inválido, preencha um valor")
                 return False
             
-            if not isinstance(curva, (int)) or curva <= 1 or curva > 5:
+            if not isinstance(curva, (int)) or curva <= 0 or curva > 5:
                 self.mostrar_erro("Insira a curva de vendas do Produto")
                 return False
             
             return True
     
-        # Dentro da sua classe de controller
     
     def obter_sugestao_de_compra(self, categoria, curva, periodo):
         print(f"Controller: Recebido pedido para Categoria={categoria}, Curva={curva}, Período={periodo}")
-
-        # Repassa a responsabilidade para o Model
-        # (Você precisará criar esta função no model)
         resultados_do_banco = self._model_db.gerarSugestao(categoria, curva, periodo)
 
         return resultados_do_banco
