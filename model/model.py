@@ -27,7 +27,9 @@ def BD_cad_produtos():
             categoria VARCHAR(40) NOT NULL,
             curva INT NOT NULL,
             custo DECIMAL(8,2) NOT NULL,
-            venda DECIMAL(8,2) NOT NULL
+            venda DECIMAL(8,2) NOT NULL,
+                   
+            FOREIGN KEY (categoria) REFERENCES cad_categorias(descricao_categoria )
         )
     ''')
     print("Tabela cad_produtos já existe ou foi criada!\n")
@@ -111,8 +113,7 @@ def salvarProdutos(codigobarras: int, descricao_produto: str, marca: str, catego
         return False
     finally:
         conn.close()
-
-def salvarVendas(codigo_produto, quantidade_vendida, periodo_vendas):
+def salvarVendas(codigo_produto: int, quantidade_vendida: int, periodo_vendas: int):
     conn = rota_banco()
     cursor = conn.cursor()
 
@@ -155,28 +156,6 @@ def listarCategoriasModel():
         return categorias
     finally:
         conn.close()
-
-'''
-def listarCodigoCategoriaModel():
-    #caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
-    #conn = sqlite3.connect(caminho_banco)
-    #cursor = conn.cursor()
-    #print("Banco conectado!")
-
-    conn = rota_banco()
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute(
-            SELECT codigo_categoria FROM cad_categorias
-            WHERE codigo_categoria = (?) {descricao})
-        codigo_cat = cursor.fetchall()
-        return codigo_cat
-    finally:
-        conn.close()
-'''
-
-
 def listarProdutosModel():
     conn = rota_banco()
     cursor = conn.cursor()
@@ -186,3 +165,46 @@ def listarProdutosModel():
         return produtos
     finally:
         conn.close()
+
+def gerarSugestao(categoria, curva, periodo_reposicao):
+    print(f"--- DEBUG MODEL --- \nCategoria: '{categoria}' (Tipo: {type(categoria)}) \nCurva: '{curva}' (Tipo: {type(curva)}) \nPeríodo: '{periodo_reposicao}' (Tipo: {type(periodo_reposicao)}) \n-------------------")
+    conn = rota_banco()
+    cursor = conn.cursor()
+    query = """
+        SELECT p.codigo_produto, p.descricao_produto, c.descricao_categoria, p.custo, p.venda, v.quantidade_vendida, v.periodo_vendas
+        FROM cad_vendas as v
+        INNER JOIN
+            cad_produtos AS p ON v.codigo_produto = p.codigo_produto
+        INNER JOIN
+            cad_categorias AS c ON p.categoria = c.descricao_categoria
+        WHERE 1=1           
+        """
+    parametros = []
+
+    if categoria != "Selecione a Categoria":
+        query += " AND c.descricao_categoria = ?"
+        parametros.append(categoria)
+    
+    if curva != 0:
+        query += " AND p.curva = ?"
+        parametros.append(curva)
+    
+    cursor.execute(query, tuple(parametros))
+    dados_sugestao = cursor.fetchall()
+
+    sugestao = []
+    for linha in dados_sugestao:
+        cod, desc, cat, custo, venda, qtd_vendida, periodo_venda = linha
+
+        if periodo_venda == 0:
+            continue
+
+        quantidade_sugerida = round((qtd_vendida / periodo_venda) * periodo_reposicao)
+        custo_total = quantidade_sugerida * custo
+        venda_total = quantidade_sugerida * venda
+    
+        sugestao.append(
+            (cod, desc, cat, f"R$ {custo:.2f}", f"R$ {venda:.2f}",
+            int(quantidade_sugerida), f"R${custo_total:.2f}", f"R${venda_total:.2f}"))
+    
+    return sugestao

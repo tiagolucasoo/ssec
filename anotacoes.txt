@@ -62,48 +62,60 @@
     4º Ajustar a aparência da view (Deixar 100% Ok)
 ''' 
 
-# ----- 30/06
-Cad Categoria OK
-Cad Produtos OK
-Visual OK
+'''
+    # ----- 30/06
+    Cad Categoria OK
+    Cad Produtos OK
+    Visual OK
 
------
-criar tela de cadastro de vendas (manual) HOJE
-SQL
-    codigo_info_vendas int(4) primary key AUTOINCREMENT
-    codigo_produto
-    quantidade_vendida
-    periodo_vendas
+    -----
+    criar tela de cadastro de vendas (manual) HOJE
+    SQL
+        codigo_info_vendas int(4) primary key AUTOINCREMENT
+        codigo_produto
+        quantidade_vendida
+        periodo_vendas
 
-Antes de salvar, fazer validação apenas se codigo_produto existe
+    Antes de salvar, fazer validação apenas se codigo_produto existe
 
------
-e montar tela de Sugestão
-Exemplo filtragem - Categoria, Curva, Periodo_reposicao
-Exemplo saída - Cód, desc, categoria, custo, venda, quantidade*, custo total*, venda total*
-* variaveis novas
+    -----
+    e montar tela de Sugestão
+    Exemplo filtragem - Categoria, Curva, Periodo_reposicao
+    Exemplo saída - Cód, desc, categoria, custo, venda, quantidade*, custo total*, venda total*
+    * variaveis novas
 
-Lógica eu gero a sugestão e faz um select dentro do dados de venda
-    1 (cad_categorias), 2(cad_produtos), 3 (cad_vendas)
-    exibe o código(3), descrição(2), categoria(1), custo(2), venda(2), 
-    quantidade = (quantidade_vendida / periodo_vendas) * Periodo_reposicao
-    custo total = quantidade * custo
-    venda total = quantidade * venda
+    Lógica eu gero a sugestão e faz um select dentro do dados de venda
+        1 (cad_categorias), 2(cad_produtos), 3 (cad_vendas)
+        exibe o código(3), descrição(2), categoria(1), custo(2), venda(2), 
+        quantidade = (quantidade_vendida / periodo_vendas) * Periodo_reposicao
+        custo total = quantidade * custo
+        venda total = quantidade * venda
 
-Com isso vai estar OK mas a tela de sugestão vai estar limitado a eu salvo a informação que ex
-produto 10, vendeu 10 em 10 dias
-se eu inserir novamente com produto 10 vendeu 15 em 10 dias oq acontece?
+    Com isso vai estar OK mas a tela de sugestão vai estar limitado a eu salvo a informação que ex
+    produto 10, vendeu 10 em 10 dias
+    se eu inserir novamente com produto 10 vendeu 15 em 10 dias oq acontece?
 
-Após estar OK e se der tempo adicionar data_venda e filtragem na sugestão para se basear nos ultimos 30 - 60 ou 90 dias
-Ajeitando hoje a sugestão e a importação manual - O básico vai estar feito
+    Após estar OK e se der tempo adicionar data_venda e filtragem na sugestão para se basear nos ultimos 30 - 60 ou 90 dias
+    Ajeitando hoje a sugestão e a importação manual - O básico vai estar feito
 
-1. Então criar a tela de importação manual - com manipulação de arquivo
-seguir a msm lógica para o de vendas com o de produtos
+    1. Então criar a tela de importação manual - com manipulação de arquivo
+    seguir a msm lógica para o de vendas com o de produtos
 
-2. Ajustar arquivo main 
+    2. Ajustar arquivo main 
 
-3. Ajuste Finais
+    3. Ajuste Finais
 
-4. Montar Slide do SSEC
+    4. Montar Slide do SSEC
 
 
+    Cadastro de Vendas
+    Salvar chama view salvar dados - transformo as variaveis em .get
+    chamo o controller.cadastrarVenda
+    faz a validação
+    chamaa o model salvarvendas
+
+    em lote Então
+'''
+
+Controller: 145
+Model: 211
