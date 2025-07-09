@@ -1,4 +1,6 @@
 import customtkinter as ctk
+import os
+
 from tkinter import Menu
 from tkinter import messagebox
 
@@ -11,36 +13,41 @@ from view.cad_vendas import view_importacao_manual
 from view.sugestao_compras import view_sugestao
 from view.imp_vendas import view_importacao_lote
 from view.imp_produtos import view_importacao_produtos
+from view.pag_inicial import view_inicial
 
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.geometry("1000x800")
+        self.state("zoomed")
         self.title("SSEC - Sistema de Sugestão Estratégica de Compras")
+
+        os.system('cls')
 
         model.model.BD_cad_categorias()
         model.model.BD_cad_produtos()
         model.model.BD_cad_vendas()
 
         self.controller = controller_cadastro()
+        self.controller.set_app(self)
+
         self.telas = {}
 
-        container = ctk.CTkFrame(self)
-        container.pack(side="top", fill="both", expand=True)
+        container = ctk.CTkFrame(master=self, fg_color="transparent")
+        container.pack(side="top", fill="both")
 
-        for tela in (view_cadastro_categorias, view_cadastro_produtos, view_importacao_manual, view_importacao_lote, view_sugestao, view_importacao_produtos):
+        for tela in (view_cadastro_categorias, view_cadastro_produtos, view_importacao_manual, view_importacao_lote, view_sugestao, view_importacao_produtos, view_inicial):
             nome = tela.__name__
             frame = tela(parent=container, controller_instance=self.controller)
             self.telas[nome] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.exibir_tela("view_cadastro_categorias")
+        self.exibir_tela("view_inicial")
         self.criar_menu()
 
     def criar_menu(self):
         barra_menu = Menu(self)
         menu_1 = Menu(barra_menu, tearoff=0)
-        menu_1.add_command(label="Página Inicial", command=lambda: self.exibir_tela("view_sugestao"))
+        menu_1.add_command(label="Página Inicial", command=lambda: self.exibir_tela("view_inicial"))
         menu_1.add_separator()
         menu_1.add_command(label="Sair", command=self.quit)
         barra_menu.add_cascade(label="Página Inicial", menu=menu_1)
@@ -72,7 +79,10 @@ class App(ctk.CTk):
         frame.tkraise()
     
     def exibir_mensagem_sucesso(self, mensagem):
-        messagebox.showinfo("Sucesso", mensagem)
+        messagebox.showinfo("Sucesso", mensagem, parent=self)
+
+    def exibir_mensagem_erro(self, mensagem):
+        messagebox.showerror("Erro", mensagem, parent=self)
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("System")

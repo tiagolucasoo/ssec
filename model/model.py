@@ -9,7 +9,6 @@ import os
 def rota_banco():
     caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
     conn = sqlite3.connect(caminho_banco)
-    print("Banco conectado!")
     return conn
 
 #2) Criação das Tabelas
@@ -32,7 +31,7 @@ def BD_cad_produtos():
             FOREIGN KEY (categoria) REFERENCES cad_categorias(descricao_categoria )
         )
     ''')
-    print("Tabela cad_produtos já existe ou foi criada!\n")
+    print("Tabela de Produtos conectada\n")
     conn.commit()
     conn.close()
 def BD_cad_categorias():
@@ -50,7 +49,7 @@ def BD_cad_categorias():
             descricao_categoria VARCHAR(50) NOT NULL
         )          
     ''')
-    print("Tabela cad_categorias já existe ou foi criada!\n")
+    print("Tabela de Categorias conectada\n")
 
     conn.commit() #Confirma as alterações
     conn.close() #Encerra o BD
@@ -67,13 +66,13 @@ def BD_cad_vendas():
             FOREIGN KEY (codigo_produto) REFERENCES cad_produtos(codigo_produto)
         )
     ''')
-    print("Tabela cad_vendas já existe ou foi criada!\n")
+    print("Tabela de Vendas conectada\n")
     conn.commit()
     conn.close()
 
-BD_cad_vendas()
-BD_cad_produtos()
-BD_cad_categorias()
+#BD_cad_vendas()
+#BD_cad_produtos()
+#BD_cad_categorias()
 
 #3) Salvar Tabelas
 def salvarCategorias(descricao_categoria,):
@@ -141,10 +140,6 @@ def salvarVendas(codigo_produto: int, quantidade_vendida: int, periodo_vendas: i
             periodo_vendas INT(3) NOT NULL,'''
 
 def listarCategoriasModel():
-    #caminho_banco = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'banco.db'))
-    #conn = sqlite3.connect(caminho_banco)
-    #cursor = conn.cursor()
-    #print("Banco conectado!")
 
     conn = rota_banco()
     cursor = conn.cursor()

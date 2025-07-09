@@ -1,6 +1,7 @@
 import customtkinter
 import tkinter as tk
-from tkinter import messagebox 
+from tkinter import messagebox
+import os 
 
 from controller.controller import controller_cadastro
 
@@ -9,7 +10,6 @@ class view_cadastro_categorias(customtkinter.CTkFrame):
         super().__init__(parent)
 
         self.controller = controller_instance
-        self.controller.set_view(self)
         self.conferir_categorias = None
 
         def configuracao_form(): #Width, Height e características padrão para o formulário (Fazer o chamado em Kwargs **)
@@ -66,16 +66,12 @@ class view_cadastro_categorias(customtkinter.CTkFrame):
     def limpar_campos_view(self):
         self.input_desc_categoria.delete(0, tk.END)
         self.input_desc_categoria.focus_set()
-        print("V: Campos Limpos")
+        os.system('cls')
+        print("-- Terminal e demais campos limpos")
 
     def on_combobox_select(self, choice):
         print(f"V: Categoria selecionada: {choice}")
 
-    def exibir_mensagem_sucesso(self, mensagem):
-        tk.messagebox.showinfo("Sucesso", mensagem)
-
-    def exibir_mensagem_erro(self, mensagem):
-        tk.messagebox.showerror("Erro", mensagem)
 
     '''def atualizar_combobox_categorias(self):
         categorias_do_db = self.controller.obter_categorias_para_view()

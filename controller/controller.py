@@ -1,40 +1,47 @@
 #Aqui funções Controller de Cadastro (Categoria e Produtos)
 from model import model
+import re
+
+#Categoria - 100% OK
 
 class controller_cadastro:
     def __init__(self):
         self._model_db = model
         self.view = None
+        self.app = None
 
     def set_view(self, view_instance):
         self.view = view_instance
+    
+    def set_app(self, app_instance):
+        self.app = app_instance
 
     def mostrar_erro(self, mensagem: str):
-        if self.view:
-            self.view.exibir_mensagem_erro(mensagem)
+        if self.app:
+            self.app.exibir_mensagem_erro(mensagem)
 
     def mostrar_sucesso(self, mensagem: str):
-        if self.view:
-            self.view.exibir_mensagem_sucesso(mensagem)
+        if self.app:
+            self.app.exibir_mensagem_sucesso(mensagem)
+
     def limpar_campos(self):
-        if self.view:
-            self.view.limpar_campos_view()
+        if self.app:
+            self.app.limpar_campos_view()
 
-    def cadastrarCategoria(self, descricao_categoria):
-        print(f"cadastrar Categoria {descricao_categoria}")
-
+    def cadastrarCategoria(self, descricao_categoria):           
         if not self.validacao_cad_categoria(descricao_categoria):
-            self.mostrar_erro(f"Ocorreu um erro ao processar o arquivo.")
             return False
+        
         if self._model_db.salvarCategorias(descricao_categoria.strip()):
             print("Controller: Categoria salva com sucesso via Model.")
             self.mostrar_sucesso(f"Categoria '{descricao_categoria.strip()}' cadastrada!")
-            self.limpar_campos()
-            return True
-        
+            return True  
+                
         else:
-            print("Controller: Falha ao salvar categoria via Model (já existe ou erro).")
-            return False
+            validacao_cat_2 = f"Categoria {descricao_categoria} cadastrada com sucesso!"
+            print(validacao_cat_2)
+            self.mostrar_sucesso(validacao_cat_2)
+
     def cadastrarProduto(self, codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
         print(f"Cadastrando Produto: {descricao_produto}")
 
@@ -96,15 +103,32 @@ class controller_cadastro:
     
     def validacao_cad_categoria(self, descricao_categoria: str):
         categorias_existentes = self._model_db.listarCategoriasModel()
-
-        if not descricao_categoria.strip():
-            self.mostrar_erro("A descrição da categoria não pode ser vazia")
-            return False
-        if descricao_categoria in list(categorias_existentes):
-            self.mostrar_erro("Essa categoria já existe")
+        lista_formatada = [cat.lower() for cat in categorias_existentes]
+        lista_limpa = descricao_categoria.strip()
+        
+        if not lista_limpa:
+            validacao_cat_1 = "A descrição da categoria não pode ser vazia!"
+            print(validacao_cat_1)
+            self.mostrar_erro(validacao_cat_1)
             return False
         
-        return True
+        if descricao_categoria.lower() in list(lista_formatada):
+            validacao_cat_3 = f"A categoria {descricao_categoria} já está cadastrada no banco!"
+            print(validacao_cat_3)
+            self.mostrar_erro(validacao_cat_3)
+            return False
+        
+        if descricao_categoria.isdigit():
+            validacao_cat_4 = f"Você digitou {descricao_categoria}, apenas números não são aceitos como nome de categorias, digite um nome válido!"
+            print(validacao_cat_4)
+            self.mostrar_erro(validacao_cat_4)
+            return False
+        if not re.search(r"[a-zA-Z0-9]", lista_limpa):
+            validacao_cat_5 = "A categoria não pode ser composta apenas de caracteres especiais!"
+            print(validacao_cat_5)
+            self.mostrar_erro(validacao_cat_5)
+        else:
+            return True
     def validacao_cad_produto(self, codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
             if not descricao_produto.strip() or not marca.strip() or not categoria.strip():
                 self.mostrar_erro("Confira os campos descrição, marca e categoria!")

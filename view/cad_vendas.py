@@ -7,7 +7,6 @@ class view_importacao_manual(customtkinter.CTkFrame):
         super().__init__(parent)
 
         self.controller = controller_instance
-        self.controller.set_view(self)
         
         CONFIG_BOTOES = {"width":200, "height":50, "border_width":2, "border_color":'#000', "text_color":'#001F21'}
         #CONFIG_INPUTS1 = {"width":600, "height":50, "border_width":0} #Para 1 por Linha

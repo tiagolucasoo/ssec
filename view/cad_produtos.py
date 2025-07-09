@@ -5,9 +5,8 @@ import tkinter as tk
 class view_cadastro_produtos(customtkinter.CTkFrame):
     def __init__(self, parent, controller_instance):
         super().__init__(parent)
-
+        
         self.controller = controller_instance
-        self.controller.set_view(self)
 
         CONFIG_BOTOES = {"width":200, "height":50, "border_width":2, "border_color":'#000', "text_color":'#001F21'}
         CONFIG_INPUTS1 = {"width":600, "height":50, "border_width":0} #Para 1 por Linha
@@ -93,9 +92,9 @@ class view_cadastro_produtos(customtkinter.CTkFrame):
 
             self.controller.cadastrarProduto(codigobarras, descricao_produto, marca, categoria, custo, venda, curva)
         except ValueError:
-            self.exibir_mensagem_erro("Confira os dados digitados e tente novamente!")
+            print("View (Erro) - cad_produtos.py")
         except Exception as e:
-            self.exibir_mensagem_erro(f"Erro ao salvar produto: {e}")
+            print(f"View (Erro): {e}")
     
     def limpar_campos_view(self):
         self.entry.delete(0, tk.END)
@@ -111,14 +110,6 @@ class view_cadastro_produtos(customtkinter.CTkFrame):
     
     def on_combobox_select(self, choice):
         print(f"V: Categoria selecionada: {choice}")
-
-    def exibir_mensagem_sucesso(self, mensagem):
-        print(f"Sucesso, {mensagem}")
-        tk.messagebox.showinfo("Sucesso", mensagem)
-
-    def exibir_mensagem_erro(self, mensagem):
-        print(f"Erro, {mensagem}")
-        tk.messagebox.showerror("Erro", mensagem)
 
     def atualizar_combobox_categorias(self):
         categorias = self.controller.listarCategorias()
