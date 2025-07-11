@@ -1,42 +1,56 @@
-# Checklist – Sistema de Sugestão Estratégica de Compras (SSEC)
-- Projeto em criação (Ainda não finalizado) | Assim que finalizado (Julho) este será postado no meu LinkedIn e terá aqui o readme alterado descrevendo as funcionalidades
+# SSEC - Sistema de Sugestão Estratégica de Compras
+- Um sistema desktop desenvolvido para realizar análises de vendas e sugerir compras/reposições de estoque. O objetivo é auxiliar pequenos negócios a manterem o estoque em níveis ideais, de forma simples e direta.
 
-## Etapa 1 – Estrutura Inicial
-- [X] Criar estrutura de pastas (`models`, `views`, `controllers`, `db`, `utils`)
-- [X] Criar banco SQLite com tabelas: `produtos`, `categorias`, `vendas`
-- [X] Criar script inicial para conexão com o banco
 
-## Etapa 2 – Tela Principal e Menu
-- [X] Criar tela principal com menu (Tkinter ou CustomTkinter)
-- [X] Criar botões de acesso para cada funcionalidade
-- [ ] Cria Menu
+## 📝 Criação do Projeto
+- Desenvolvido inicialmente como trabalho semestral para a disciplina de `Construção de Aplicações em Ambiente Visual`, o projeto consistia na criação de um sistema com padrão MVC e persistência de dados.
 
-## Etapa 3 – Cadastro de Categorias
-- [X] Criar formulário de cadastro de categoria
-- [X] Implementar função `adicionar_categoria` no banco
-- [X] Listar categorias cadastradas (opcional: atualizar/deletar)
+- Com interface moderna feita em `CustomTkinter`, a aplicação permite o cadastro de produtos, categorias e vendas (manualmente ou por importação em lote), possibilitando cálculos automatizados de reposição com base em filtros e desempenho de vendas.
 
-## Etapa 4 – Cadastro de Produtos
-- [X] Criar tela com campos: código, descrição, marca, categoria, custo, venda
-- [ ] Implementar função `adicionar_produto` no banco
-- [X] Combobox para seleção de categoria
+- O objetivo nesta primeira versão é atuar como um **módulo auxiliar**, podendo ser integrado a sistemas existentes, desde que utilizem os mesmos códigos de produto.
 
-## Etapa 5 – Importação Manual de Vendas
-- [X] Criar formulário para digitar: código, quantidade, período
-- [ ] Validar e salvar os dados na tabela `vendas`
 
-## Etapa 6 – Importação de Vendas por Lote (.txt)
-- [ ] Criar tela para upload/seleção do arquivo `.txt`
-- [ ] Ler arquivo linha a linha, validar e salvar dados
-- [ ] Mensagem de sucesso ou erro
+## ✨ Funcionalidades
+- **Cadastro de Categorias**: Inserção simples apenas com o nome da categoria.
+- **Cadastro de Produtos**: Inclui Código, Código de Barras, Descrição, Marca, Categoria (via ComboBox), Custo, Venda e Curva ABC.
+- **Cadastro de Vendas**: Informações por produto, com quantidade vendida e período (em dias).
+- **Importação em Lote**: Permite a importação de arquivos `.txt` com dados de produtos ou vendas, acelerando a entrada de dados.
+- **Sugestão de Compras**:
+  - Filtragem por Categoria, Curva ABC e Período
+  - Quantidade sugerida de cada item
+  - Valor total de custo e venda
+  - Margem de lucro individual
+- **Banco de Dados**: Utiliza `SQLite3`, tornando o sistema portátil e sem dependência de servidores externos.
 
-## Etapa 7 – Importação de Produtos por Lote (.txt)
-- [ ] Criar tela para importar produtos via arquivo `.txt`
-- [ ] Ler dados no formato: `código,descrição,marca,categoria,custo,preço`
-- [ ] Validar e inserir no banco
+## 🛠️ Tecnologias Utilizadas
+-   Python
+-   CustomTkinter
+-   SQLite 3
 
-### Exemplo de conteúdo do arquivo `.txt`:
-```txt
-1010,Energético Furioso,Furioso,Categorias Bebidas,3.00,5.00
-1011,Água Mineral 500ml,Crystal,Categorias Bebidas,1.20,2.50
-1012,Cerveja Gelada,Lager,Categorias Bebidas,2.50,4.00
+## 📂 Estrutura do Projeto
+-   `main.py`
+-   `banco.db`
+-   `readme.md`<br><br>
+-  `📂 CONTROLLER`
+-   -   `controller.py`
+-  `📂 MODEL`
+-   -   `model.py`
+-  `📂 VIEW`
+-   -   `cad_categorias.py`
+-   -   `cad_produtos.py`
+-   -   `cad_vendas.py`
+-   -   `imp_produtos.py`
+-   -   `imp_vendas.py`
+-   -   `pag_inicial.py`
+-   -   `sugestao_compras.py`
+
+## 🔒 Alterações e Exclusões
+- Nesta versão inicial, o SSEC **não permite alterações ou exclusões de dados diretamente pela interface** (Embora isso seja possível diretamente no BD). Essa decisão visa garantir a integridade das informações cadastradas após as validações, mantendo o foco principal na análise e sugestão com base em dados consistentes.
+- O controle total de dados será implementado nas próximas versões, juntamente com o módulo de estoque — que reforçará a funcionalidade de sugestões com variavéis como estoque atual, estoque mínimo e similares.
+
+## 🔮 Próximos Passos
+- Implementar módulo de controle de estoque
+- Desenvolver uma versão web com Flask (Jinja2, HTML, CSS, JS)
+- Evoluir para um ERP simplificado:
+  - Geração automática de código de produtos
+  - Integração de módulos adicionais (estoque, financeiro, etc.)

@@ -18,7 +18,8 @@ from view.pag_inicial import view_inicial
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.state("zoomed")
+        self.geometry("1024x768")
+        self.minsize(1024,768)
         self.title("SSEC - Sistema de Sugestão Estratégica de Compras")
 
         os.system('cls')
@@ -33,7 +34,9 @@ class App(ctk.CTk):
         self.telas = {}
 
         container = ctk.CTkFrame(master=self, fg_color="transparent")
-        container.pack(side="top", fill="both")
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1) 
+        container.grid_columnconfigure(0, weight=1)
 
         for tela in (view_cadastro_categorias, view_cadastro_produtos, view_importacao_manual, view_importacao_lote, view_sugestao, view_importacao_produtos, view_inicial):
             nome = tela.__name__

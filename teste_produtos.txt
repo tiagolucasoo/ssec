@@ -1,3 +1,0 @@
-(Cód, Descrição, Marca, Categoria, (Custo), (Venda).
-1010, Energético Furioso 250ml Tradicional, Furioso,2,(1.49),(3.49),,
-1011, Energético Furioso 250ml Citrus, Furioso,2,(1.49),(3.49),, 

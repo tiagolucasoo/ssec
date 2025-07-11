@@ -11,6 +11,10 @@ class view_cadastro_categorias(customtkinter.CTkFrame):
 
         self.controller = controller_instance
         self.conferir_categorias = None
+        
+        # Rodapé
+        info_ssec = customtkinter.CTkLabel(self, text="SSEC - Versão 1.0 | Desenvolvido por Tiago Lucas (GitHub: Tiagolucasoo)", fg_color="transparent")
+        info_ssec.place(relx=0.0, rely=1.0, anchor="sw", x=10, y=-10)
 
         def configuracao_form(): #Width, Height e características padrão para o formulário (Fazer o chamado em Kwargs **)
             CONFIG_BOTOES = {"width":200, "height":50, "border_width":0, "border_color":'#000', "text_color":'#001F21'}
@@ -45,9 +49,9 @@ class view_cadastro_categorias(customtkinter.CTkFrame):
         container_botoes.pack(side="top")
 
         #Botões
-        self.limpar_categoria = customtkinter.CTkButton(container_botoes, **CONFIG_BOTOES, fg_color="#ECC039", text="Limpar", command=self.limpar_campos_view)
+        self.limpar_categoria = customtkinter.CTkButton(container_botoes, **CONFIG_BOTOES, fg_color="#ffc107", hover_color="#e0a800", text="Limpar Campos", command=self.limpar_campos_view)
         self.limpar_categoria.pack(side="left", padx=20, pady=20)
-        self.salvar_categoria = customtkinter.CTkButton(container_botoes, **CONFIG_BOTOES, fg_color="#90EE90", text="Cadastrar", command=self.salvar_dados_da_view)
+        self.salvar_categoria = customtkinter.CTkButton(container_botoes, **CONFIG_BOTOES, fg_color="#28a745", hover_color="#218838", text="Cadastrar Categoria", command=self.salvar_dados_da_view)
         self.salvar_categoria.pack(side="left", padx=20, pady=20)
 
         #Visualização Categorias 000

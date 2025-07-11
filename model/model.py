@@ -19,8 +19,8 @@ def BD_cad_produtos():
     #cursor.execute("INSERT INTO categorias VALUES (?, ?, ?)", (codigo, descricao))
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS cad_produtos(
-            codigo_produto INTEGER PRIMARY KEY AUTOINCREMENT,
-            codigobarras INT(30) UNIQUE,
+            codigo_produto INTEGER PRIMARY KEY,
+            codigobarras INT(30) NOT NULL,
             descricao_produto VARCHAR(50) NOT NULL,
             marca VARCHAR(20) NOT NULL,
             categoria VARCHAR(40) NOT NULL,
@@ -92,15 +92,15 @@ def salvarCategorias(descricao_categoria,):
         print("Erro geral ao salvar: ", e)
     finally:
         conn.close()
-def salvarProdutos(codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
+def salvarProdutos(codigo_produto: int, codigobarras: int, descricao_produto: str, marca: str, categoria: str, custo: float, venda: float, curva: int):
     conn = rota_banco()
     cursor = conn.cursor()
 
     try:
         cursor.execute("""
-            INSERT INTO cad_produtos (codigobarras, descricao_produto, marca, categoria, custo, venda, curva)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (codigobarras, descricao_produto, marca, categoria, custo, venda, curva))
+            INSERT INTO cad_produtos (codigo_produto, codigobarras, descricao_produto, marca, categoria, custo, venda, curva)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (codigo_produto, codigobarras, descricao_produto, marca, categoria, custo, venda, curva))
         conn.commit()
         print(f"Model: Produto '{descricao_produto}' salvo no banco.")
         return True
@@ -132,12 +132,6 @@ def salvarVendas(codigo_produto: int, quantidade_vendida: int, periodo_vendas: i
         return False
     finally:
         conn.close()
-        
-    '''
-    codigo_venda INTEGER PRIMARY KEY AUTOINCREMENT,
-            codigo_produto INTEGER NOT NULL,
-            quantidade_vendida INT(5) NOT NULL,
-            periodo_vendas INT(3) NOT NULL,'''
 
 def listarCategoriasModel():
 
@@ -157,6 +151,15 @@ def listarProdutosModel():
         cursor.execute("SELECT descricao_produto, codigobarras FROM cad_produtos")
         produtos = cursor.fetchall() 
         return produtos
+    finally:
+        conn.close()
+def listarCodigoProdutosModel():
+    conn = rota_banco()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT codigo_produto, descricao_produto FROM cad_produtos")
+        codigo_pro = cursor.fetchall()
+        return codigo_pro
     finally:
         conn.close()
 
@@ -192,13 +195,29 @@ def gerarSugestao(categoria, curva, periodo_reposicao):
 
         if periodo_venda == 0:
             continue
+        
+        try:
+            custo_str = str(custo).replace(',', '.')
+            venda_str = str(venda).replace(',', '.')
+            custo_float = float(custo_str)
+            venda_float = float(venda_str)
+        except (ValueError, TypeError):
+            print(f"Aviso: Ignorando linha com valor de custo/venda inválido. Custo: {custo_str}, Venda: {venda_str}")
+            continue
 
         quantidade_sugerida = round((qtd_vendida / periodo_venda) * periodo_reposicao)
-        custo_total = quantidade_sugerida * custo
-        venda_total = quantidade_sugerida * venda
-    
+        custo_total = quantidade_sugerida * custo_float
+        venda_total = quantidade_sugerida * venda_float
+
+        if venda_float > 0:
+            lucro = venda_float - custo_float
+            margem = (lucro / venda_float) * 100
+        else:
+            lucro = -custo_float
+            margem = -float('inf')
+
         sugestao.append(
-            (cod, desc, cat, f"R$ {custo:.2f}", f"R$ {venda:.2f}",
+            (cod, desc, cat, f"R$ {custo_float:.2f}", f"R$ {venda_float:.2f}", f"{margem:.2f}%",
             int(quantidade_sugerida), f"R${custo_total:.2f}", f"R${venda_total:.2f}"))
     
     return sugestao

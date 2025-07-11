@@ -1,5 +1,6 @@
 import customtkinter
 import tkinter as tk
+import os
 
 from controller.controller import controller_cadastro
 
@@ -17,11 +18,8 @@ class view_sugestao(customtkinter.CTkFrame):
         self.label_categoria = customtkinter.CTkLabel(self, text="Categoria", fg_color="transparent")
         self.label_categoria.pack()
 
-        self.box_categoria = customtkinter.CTkComboBox(self,width=275,height=50,border_width=0,values=self.controller.listarCategorias(),command=self.on_combobox_select)
+        self.box_categoria = customtkinter.CTkComboBox(self,width=600,height=50,border_width=0, values=self.controller.listarCategorias(),command=self.on_combobox_select)
         self.box_categoria.pack()
-
-        label5 = customtkinter.CTkLabel(self, text="Categoria", fg_color="transparent")
-        label5.pack(side="top", pady=20)
 
         #Curva
         label6 = customtkinter.CTkLabel(self, text="Curva de Vendas", fg_color="transparent")
@@ -71,7 +69,7 @@ class view_sugestao(customtkinter.CTkFrame):
         gerar = customtkinter.CTkButton(container_radio2, text="Gerar Sugestão", command=self.gerar_sugestao)
         gerar.pack(side="left", padx=20)
 
-        limpar = customtkinter.CTkButton(container_radio2, text="Limpar Dados")
+        limpar = customtkinter.CTkButton(container_radio2, text="Limpar Dados", command=self.limpar_dados)
         limpar.pack(side="left", padx=20)
 
         self.frame_resultados = customtkinter.CTkScrollableFrame(self, label_text="Sugestões de Compra")
@@ -82,7 +80,7 @@ class view_sugestao(customtkinter.CTkFrame):
                 widget.destroy()
 
             #Cabecalho
-            cabecalho = ["Cód", "Descrição", "Categoria", "Custo", "Venda", "Qtde Sugerida", "Custo Total", "Venda Total"]
+            cabecalho = ["Cód", "Descrição", "Categoria", "Custo", "Venda", "Margem %", "Qtde Sugerida", "Custo Total", "Venda Total"]
             for i, texto_linha0 in enumerate(cabecalho):
                 label = customtkinter.CTkLabel(self.frame_resultados, text=texto_linha0, font=("", 12, "bold"))
                 label.grid(row=0, column=i, padx=10, pady=5)
@@ -104,3 +102,13 @@ class view_sugestao(customtkinter.CTkFrame):
             categoria_selecionada, curva_selecionada, periodo_selecionado)
 
         self.exibir_resultados(lista_de_sugestoes)
+    def limpar_dados(self):
+        self.box_categoria.set("Selecione a Categoria")
+        self.radio_var_periodo.set(0)
+        self.radio_var_curva.set(0)
+        
+        for widget in self.frame_resultados.winfo_children():
+            widget.grid_forget()
+
+        os.system('cls')
+        print("-- Terminal e demais campos limpos")

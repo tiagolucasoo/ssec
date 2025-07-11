@@ -1,0 +1,10 @@
+1011,7891000000020,Barra de Chocolate Branco 80g,ChocoBom,Chocolates,(3.10),(6.20),2
+1012,7891000000021,Batata Chips Cebola e Salsa 70g,CrocMais,Salgadinhos,(2.90),(5.75),3
+1013,7891000000022,Refrigerante Laranja 2L,ColaMais,Refrigerantes,(5.50),(8.99),1
+1014,7891000000023,Suco de Laranja 1L,Naturalé,Sucos,(4.10),(7.50),4
+1015,7891000000024,Biscoito Wafer Limão 110g,DoceMix,Biscoitos,(1.65),(3.50),2
+1016,7891000000025,Água Mineral com Gás 500ml,Fontesul,Bebidas,(1.10),(2.50),1
+1017,7891000000026,Sabonete Hidratante 90g,PeleSuave,Higiene,(1.25),(2.80),1
+1018,7891000000027,Creme Dental Menta Fresh 70g,SorrisoForte,Higiene,(2.80),(5.40),2
+1019,7891000000028,Energético Maçã Verde 250ml,RedPower,Energéticos,(2.60),(5.20),3
+1020,7891000000029,Amendoim Japonês 100g,Salgaditos,Salgadinhos,(2.00),(4.00),2
