@@ -48,6 +48,15 @@
 - Nesta versão inicial, o SSEC **não permite alterações ou exclusões de dados diretamente pela interface** (Embora isso seja possível diretamente no BD). Essa decisão visa garantir a integridade das informações cadastradas após as validações, mantendo o foco principal na análise e sugestão com base em dados consistentes.
 - O controle total de dados será implementado nas próximas versões, juntamente com o módulo de estoque — que reforçará a funcionalidade de sugestões com variavéis como estoque atual, estoque mínimo e similares.
 
+## 🚀 Como Executar o SSEC
+
+#### 🔧 1. Executar pelo Código-Fonte
+- Basta clonar o meu repositório, baixar a biblioteca do customtkinter e rodar o arquivo diretamente pelo main.py
+
+#### 📦 2. Usar o Executável
+- Sem necessidade de baixar o python ou bibliotecas como o customTkinter, basta fazer o download do arquivo executável disponível na aba de releases
+- O executável foi gerado com o PyInstaller, tornando a aplicação portátil e simples de usar em máquinas Windows.
+
 ## 🔮 Próximos Passos
 - Implementar módulo de controle de estoque
 - Desenvolver uma versão web com Flask (Jinja2, HTML, CSS, JS)
