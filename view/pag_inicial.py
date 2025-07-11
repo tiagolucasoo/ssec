@@ -1,10 +1,18 @@
 import customtkinter
 from tkinter.filedialog import askopenfilename
-
 from controller.controller import controller_cadastro
 import tkinter as tk
 from PIL import Image
 import datetime
+
+import os
+import sys
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class view_inicial(customtkinter.CTkFrame):
     def __init__(self, parent, controller_instance):
@@ -15,8 +23,11 @@ class view_inicial(customtkinter.CTkFrame):
         fundo = customtkinter.CTkFrame(master=self, fg_color="transparent")
         fundo.pack()
 
-        logo_ssec = customtkinter.CTkImage(light_image=Image.open("img/logo_light.png"),
-                                  dark_image=Image.open("img/logo_dark.png"),
+        imagem_light = resource_path("img/logo_light.png")
+        imagem_dark = resource_path("img/logo_dark.png")
+
+        logo_ssec = customtkinter.CTkImage(light_image=Image.open(imagem_light),
+                                  dark_image=Image.open(imagem_dark),
                                   size=(500, 180))
         logo = customtkinter.CTkLabel(self, image=logo_ssec, text="")
         logo.pack()

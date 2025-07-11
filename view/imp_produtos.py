@@ -1,10 +1,18 @@
 import customtkinter
 from tkinter.filedialog import askopenfilename
 from PIL import Image
-import os
 
 from controller.controller import controller_cadastro
 import tkinter as tk
+
+import os
+import sys
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class view_importacao_produtos(customtkinter.CTkFrame):
     def __init__(self, parent, controller_instance):
@@ -21,8 +29,11 @@ class view_importacao_produtos(customtkinter.CTkFrame):
         #CONFIG_INPUTS1 = {"width":600, "height":50, "border_width":0} #Para 1 por Linha
         CONFIG_INPUTS2 = {"width":275, "height":50, "border_width":0} #Para 2 por Linha
 
-        logo_ssec = customtkinter.CTkImage(light_image=Image.open("img/img_produtos_light.png"),
-                                  dark_image=Image.open("img/img_produtos_dark.png"),
+        imagem_light = resource_path("img/img_produtos_light.png")
+        imagem_dark = resource_path("img/img_produtos_dark.png")
+
+        logo_ssec = customtkinter.CTkImage(light_image=Image.open(imagem_light),
+                                  dark_image=Image.open(imagem_dark),
                                   size=(600, 165))
         logo = customtkinter.CTkLabel(self, image=logo_ssec, text="")
         logo.pack(pady=25)
